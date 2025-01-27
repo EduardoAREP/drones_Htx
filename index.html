@@ -11,6 +11,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+				<!-- SweetAlert2 CSS + JS via CDN -->
+		<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+		/>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	</head>
 	<body class="is-preload">
 
@@ -22,7 +28,7 @@
 						 service in the Houston Area</a>.</h1>
 					<p>Take your listing to new heights with our 4k pictures and videos that showcase any property in the best way.</p>
 					<ul class="actions special">
-						<li><a href="#footer" class="button scrolly">Contact</a></li>
+						<li><a href="#contact" class="button scrolly">Contact</a></li>
 					</ul>
 				</div>
 			</section>
@@ -444,11 +450,112 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				</div>
 			</section>
 		-->
+		<section id="contact" style="text-align: center;">
+			<h2 style="margin-bottom: 0.5em;">Contact Me</h2>
+			
+			<form 
+			  action="#" 
+			  id="contactForm"
+			  style="
+				display: inline-block;
+				border: 1px solid #ccc;
+				padding: 1em;
+				box-sizing: border-box;
+				text-align: left;      /* Inputs label align left inside the form */
+				margin: 0 auto;
+				max-width: 600px;
+				width: 100%;
+			  "
+			>
+			  <!-- First Name (required) -->
+			  <div style="margin-bottom: 1em;">
+				<label for="first_name" style="display: block; font-weight: bold;">First Name</label>
+				<input 
+				  type="text" 
+				  id="first_name" 
+				  name="first_name" 
+				  required 
+				  placeholder="Enter your first name" 
+				  style="width: 100%; padding: 0.5em;"
+				/>
+			  </div>
+		  
+			  <!-- Last Name (required) -->
+			  <div style="margin-bottom: 1em;">
+				<label for="last_name" style="display: block; font-weight: bold;">Last Name</label>
+				<input 
+				  type="text" 
+				  id="last_name" 
+				  name="last_name" 
+				  required 
+				  placeholder="Enter your last name"
+				  style="width: 100%; padding: 0.5em;"
+				/>
+			  </div>
+		  
+			  <!-- Phone Number (optional) -->
+			  <div style="margin-bottom: 1em;">
+				<label for="phone" style="display: block; font-weight: bold;">Phone Number</label>
+				<input 
+				  type="tel" 
+				  id="phone" 
+				  name="phone" 
+				  placeholder="Enter your phone number (optional)" 
+				  style="width: 100%; padding: 0.5em;"
+				/>
+			  </div>
+		  
+			  <!-- Email (required) -->
+			  <div style="margin-bottom: 1em;">
+				<label for="email" style="display: block; font-weight: bold;">Email</label>
+				<input 
+				  type="email" 
+				  id="email" 
+				  name="email" 
+				  required 
+				  placeholder="Enter your email" 
+				  style="width: 100%; padding: 0.5em;"
+				/>
+			  </div>
+		  
+			  <!-- Message (optional) -->
+			  <div style="margin-bottom: 1em;">
+				<label for="message" style="display: block; font-weight: bold;">Message</label>
+				<textarea 
+				  id="message" 
+				  name="message" 
+				  rows="5" 
+				  placeholder="Enter your message"
+				  style="width: 100%; padding: 0.5em;"
+				></textarea>
+			  </div>
+		  
+			  <!-- Submit Button -->
+			<div style="margin-bottom: 1em; text-align: center;">
+				<button 
+				type="submit" 
+				style="
+				  display: inline-flex;
+				  align-items: center; 
+				  justify-content: center;
+				  padding: 0.75em 1em; 
+				  cursor: pointer;"
+			  >
+				Submit
+			  </button>
+			</div>
+  
+			</form>
+		  </section>
+
+		<div>
+			<br>
+		</div>
 
 		<!-- Footer -->
 			<section id="footer">
 				<ul class="icons">
-					<h3>Contact Us on Insagram for the fastest response.</h3>
+					<h3>Reach out on Insagram for the fastest response.</h3>
 					<!-- <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
 					<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li> -->
 					<li><a href="https://www.instagram.com/drones_htx/?next=%2F" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
@@ -491,6 +598,65 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					});
 				});
 			  </script>
+			  <script>
+				// Replace with your actual Apps Script Web App URL
+				const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyrNQIcwHRTGWPxDDBjgVQKti5M6mywEHs8FooTf6LuP-d8EVU98SZQoNpi1ctK-Zx/exec";
+			  
+				// Grab the form element
+				const contactForm = document.getElementById("contactForm");
+
+				// Listen for the form's submit event
+				contactForm.addEventListener("submit", async (e) => {
+					e.preventDefault(); // Prevent normal form submission
+
+					// Collect the form data
+					const formData = new FormData(contactForm);
+
+					// 1. Show a loading spinner
+					Swal.fire({
+					title: "Sending your message...",
+					text: "Please wait a moment.",
+					allowOutsideClick: false, // Prevent clicking outside to close
+					didOpen: () => {
+						Swal.showLoading(); // Turn on SweetAlert2's spinner
+					}
+					});
+
+					try {
+					// 2. POST the data to Apps Script
+					const response = await fetch(APPS_SCRIPT_URL, {
+						method: "POST",
+						body: formData
+					});
+					const json = await response.json();
+
+					// 3. Close the loading popup, then show success or error
+					if (json.result === "success") {
+						Swal.fire({
+						icon: "success",
+						title: "Message Sent!",
+						text: "Thank you. Your message has been submitted successfully."
+						});
+						contactForm.reset();
+					} else {
+						Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Something went wrong. Please try again later."
+						});
+					}
+					} catch (error) {
+					// 4. Network or fetch errors also show an error popup
+					Swal.fire({
+						icon: "error",
+						title: "Error",
+						text: "There was a problem submitting your form. Please try again."
+					});
+					console.error(error);
+					}
+				});
+			  </script>
+			  
 
 	</body>
 </html>
